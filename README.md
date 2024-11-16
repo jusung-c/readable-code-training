@@ -248,3 +248,20 @@
 
 
 **LSP: 리스코프 치환 원칙**
+
+- Cell를 abstract 클래스로 지정하고 Cell을 상속한 지뢰 Cell, 숫자 Cell, 빈 Cell 자식 클래스를 만들자
+  - abstract 클래스이므로 만들었으므로 생성자, create 삭제
+  - 먼저 공통으로 사용되는 스펙은 부모 클래스인 Cell에서 정의
+    - `open()`, `flag()`, `isChecked()`, `isOpened()`,
+  - 각 자식마다 다른 스펙들은 abstract 메서드로 정의
+    - `turnOnLandMine()`, `updateNearbyLandMineCount()`, `isLandMine()`, `hasLandMineCount()`, `getSign()`
+- 위처럼 구현하면 사실 LSP를 위반하는 방식이다.
+  - 예를 들어 `updateNearbyLandMineCount()`는 NumberCell에서만 작동하는 방식인데 예외를 피하기 위해 `instanceof NumberCell`과 같이 불필요한 타입 체크가 생길 수 있다.
+  - Cell이 동작할 것을 기대했지만 사실 그 자식에 따라 예상과 다르게 동작할 수 있는 것이다.
+- LSP를 준수하는 방식으로 리팩토링 해보자
+  - `turnOnLandMine()`, `updateNearbyLandMineCount()` 모두 사실은 각 자식의 특성이므로 메서드로 뺄 필요가 없다.
+    - NumberCell은 생성자로 주변 지뢰 count를 받아서 넣어주면 된다.
+    - LandMineCell은 그 자체로 지뢰이므로 `turnOnLandMine()`이 필요가 없다.
+
+
+<br/>
