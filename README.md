@@ -265,3 +265,16 @@
 
 
 <br/>
+
+
+**ISP: 인터페이스 분리 원칙**
+
+- 만약 Minesweeper 뿐만 아니라 다른 게임도 메인에서 실행한다고 생각해보자
+  - Minesweeper는 Game 인터페이스를 구현하는 구현체가 되는 것
+- Game 인터페이스는 초기화 로직인 `initialize()`와 `run()`을 가지고 있는데, 어떠한 게임은 초기화 과정이 필요 없지만 Game의 구현체라서 `initialize()`를 구현해야하는 애매한 상황이 발생한다. -> ISP 위반
+- Game이 두 가지 이상의 기능을 가져서 생기는 문제이다. 인터페이스를 쪼개서 해결하자
+  - GameInitializable, GameRunnable
+- Minesweeper는 초기화, 실행 모두 필요하니까 두 인터페이스를 모두 구현하면 되고, 실행만 하면 되는 게임은 GameInitializable만 구현하면 되는 것이다.
+
+
+<br/>
