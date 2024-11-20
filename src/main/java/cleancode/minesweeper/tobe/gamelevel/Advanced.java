@@ -1,4 +1,5 @@
 package cleancode.minesweeper.tobe.gamelevel;
+
 public class Advanced implements GameLevel {
 
     @Override

@@ -34,8 +34,8 @@ public class OutputHandler {
     public void askLockerPass(StudyCafeLockerPass lockerPass) {
         System.out.println();
         String askMessage = String.format(
-            "사물함을 이용하시겠습니까? (%s)",
-            lockerPass.display()
+                "사물함을 이용하시겠습니까? (%s)",
+                lockerPass.display()
         );
 
         System.out.println(askMessage);
