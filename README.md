@@ -369,3 +369,17 @@
 
 
 <br/>
+
+### Step 5: 다듬기
+
+**주석을 사용할까 말까**
+
+- 주석에 의존하게 되면 편한 방법으로 요구사항을 설명하게 되는 것일 수 있어 적절한 추상화가 어려울 수 있다.
+- 코드로 표현할 수 없을 때 상황을 설명해주는 주석이 좋은 것이다.
+- 기존에는 gameStatus의 정보를 주석으로 표현했었다. GameStatus Enum으로 이를 해결해보자
+- 기존에는 게임을 진행할 때 무한 루프를 사용했는데 이 무한 루프는 굉장히 위험한 로직이므로 gameStatus를 활용해 개선하자
+- 이렇게 하고 나면, gameStatus를 MineSweeper에서 관리하면서 모든 것을 GameBoard에 물어보고 있는데 아예 gameStatus를 GameBoard 자체에서 gameStatus를 관리하도록 개선하자
+  - 모든 GameStatus 관련 로직은 GameBoard에서 전부 담당하고, MineSweeper는 단순 컨트롤러 역할만 하도록 할 수 있다.
+
+
+<br/>
