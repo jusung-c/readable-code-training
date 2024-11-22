@@ -1,5 +1,10 @@
 # Readable Code
 
+### 박우빈님의 [Readable Code: 읽기 좋은 코드를 작성하는 사고법](https://www.inflearn.com/course/readable-code-%EC%9D%BD%EA%B8%B0%EC%A2%8B%EC%9D%80%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1%EC%82%AC%EA%B3%A0%EB%B2%95/dashboard)을 수강하고 정리한 글입니다.
+
+
+---
+
 ### step 1: 추상
 
 **도메인 용어 정리**
@@ -326,5 +331,30 @@
   - 각 셀에서 CellSnapshotStatus를 outputHandler에 보내주면 그에 따라 맞는 사인을 출력해주는 방식이다.
     - 그런데 Number 셀의 경우는 숫자 정보를 출력해줘야 하는데 숫자 자체가 너무 동적이라 (Number 셀마다 다른 값) 그 숫자 정보도 같이 넘겨줘야 한다.
     - 즉, 상태 뿐만 아니라 숫자 정보도 넘겨줘야 하므로 CellSnapshot이라는 통 객체를 만들어서 각 셀에서 CellSnapshot을 만들어 outputHandler로 넘기는 방식으로 해결한다.
+
+<br/>
+
+**다형성 활용하기**
+
+- Enum을 적용하면서 Enum 값에 따라 출력을 다르게 할 때 여러 개의 if 분기문으로 구현하였다. 이렇게 하면 status의 종류가 많아질수록 분기문의 수도 증가할 것이다.
+- 반복적인 if문을 다형성을 활용한 `CellSignProvidable` 인터페이스로 해결해보자
+
+  - 단순히 status에 해당하는 구현체만 주는 스펙으로는 분기문을 없앨 수 없다. 각 분기별로 if문을 통해 구현체를 전달하는 방식이기 때문이다.
+  - 따라서 supports()라는 스펙을 만들어서 해당하는 셀이 맞는지 확인한 뒤 미리 Provider들을 만들어두고, supports()를 통해 해당하는 Provider를 가져와서 해당하는 sign을 얻는 방식으로 개선한다.
+  - 미리 Provider 리스트를 만들 때 기존 로직에서 하면 계속 새로 만드니 낭비다. 이 리스트를 상수로 가지고 있고, snapshot에 따라 제공해주는 Finder 객체를 만들자.
+    - 이 Finder 자체도 계속 재사용될 것이기 때문에 전역 필드로 관리한다.
+  - ![image.png](assets/providable.png)
+- if문은 사라졌지만, sign 하나 얻기 위해 새로운 cell이 추가되면 Provider 구현체를 계속 만들어줘야 하고, Finder의 Provider 리스트 상수에도 잊지 않고 수동적으로 이를 추가해줘야 한다.
+
+  - 클래스 파일도 늘어나고, 실수의 여지가 생긴다.
+  - CellSignProvider Enum을 통해 각 상태의 Provider를 표현한다. 이 때 CellSignProvidable을 구현해서 Enum의 필드값을 각각 오버라이딩하는 방법으로 개선한다.
+  - ![image.png](assets/provider.png)
+  - 이렇게 하니까 구현체도 가지고 있고, 추상화된 스펙도 정의하는 하나의 Enum 클래스로 해결할 수 있게 된 것이다.
+- 어떤 조건을 만족하면 그 조건에 해당하는 행위를 수행하는 로직이 있을 때 OCP 원칙을 지키기 위해 변하는 것과 변하지 않는 것을 잘 구분해야 한다.
+
+  - 변하는 것: 조건, 행위
+  - 변하지 않는 것: 1. 조건을 만족하는가? 2. 행위를 수행한다.
+- 여기서 변하는 조건, 행위를 구체적인 구현(구현체)으로 표현하고, 변하지 않는 스펙은 추상화(인터페이스)로 표현한다.
+
 
 <br/>
