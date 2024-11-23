@@ -1,9 +1,9 @@
 package cleancode.minesweeper.tobe.minesweeper.io;
 
 import cleancode.minesweeper.tobe.minesweeper.board.GameBoard;
-import cleancode.minesweeper.tobe.minesweeper.exception.GameException;
-import cleancode.minesweeper.tobe.minesweeper.board.position.CellPosition;
 import cleancode.minesweeper.tobe.minesweeper.board.cell.CellSnapshot;
+import cleancode.minesweeper.tobe.minesweeper.board.position.CellPosition;
+import cleancode.minesweeper.tobe.minesweeper.exception.GameException;
 import cleancode.minesweeper.tobe.minesweeper.io.sign.CellSignFinder;
 import cleancode.minesweeper.tobe.minesweeper.io.sign.CellSignProvider;
 
@@ -45,9 +45,9 @@ public class ConsoleOutputHandler implements OutputHandler {
 
     private String generateColAlphabets(GameBoard board) {
         List<String> alphabets = IntStream.range(0, board.getColSize())
-                                          .mapToObj(index -> (char) ('a' + index))
-                                          .map(Objects::toString)
-                                          .toList();
+                .mapToObj(index -> (char) ('a' + index))
+                .map(Objects::toString)
+                .toList();
 
         return String.join(" ", alphabets);
     }
